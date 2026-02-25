@@ -2,14 +2,14 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import trainer1 from '@/assets/trainer1.jpg';
-import trainer2 from '@/assets/trainer2.jpg';
-import trainer3 from '@/assets/trainer3.jpg';
+import member1 from '@/assets/member1.jpg';
+import member2 from '@/assets/member2.jpg';
+import member3 from '@/assets/member3.jpg';
 
 const testimonials = [
-  { img: trainer1, nameEn: 'Ahmed Al Maktoum', nameAr: 'أحمد المكتوم', rating: 5, en: 'APEX FITNESS transformed my lifestyle. The trainers are world-class and the facility is unmatched in Dubai. I\'ve never felt more motivated and supported in my fitness journey.', ar: 'غيّر APEX FITNESS نمط حياتي. المدربون على مستوى عالمي والمرافق لا مثيل لها في دبي. لم أشعر أبداً بمزيد من التحفيز والدعم في رحلة لياقتي.' },
-  { img: trainer2, nameEn: 'Sarah Mitchell', nameAr: 'سارة ميتشل', rating: 5, en: 'Lost 15kg in 4 months with their personalized program. The nutrition coaching made all the difference. Highly recommend to anyone serious about results.', ar: 'فقدت 15 كجم في 4 أشهر مع برنامجهم المخصص. التدريب الغذائي أحدث فرقاً كبيراً. أنصح به بشدة لكل من يريد نتائج حقيقية.' },
-  { img: trainer3, nameEn: 'Rashid Al Noor', nameAr: 'راشد النور', rating: 5, en: 'Premium experience from start to finish. The elite membership is worth every dirham. The coaches truly care about your progress.', ar: 'تجربة فاخرة من البداية للنهاية. عضوية إليت تستحق كل درهم. المدربون يهتمون حقاً بتقدمك.' },
+  { img: member1, nameEn: 'Khalid Farooq', nameAr: 'خالد فاروق', rating: 5, en: 'APEX FITNESS transformed my lifestyle. The trainers are world-class and the facility is unmatched in Dubai. I\'ve never felt more motivated and supported in my fitness journey.', ar: 'غيّر APEX FITNESS نمط حياتي. المدربون على مستوى عالمي والمرافق لا مثيل لها في دبي. لم أشعر أبداً بمزيد من التحفيز والدعم في رحلة لياقتي.' },
+  { img: member2, nameEn: 'Elena Torres', nameAr: 'إيلينا توريس', rating: 5, en: 'Lost 15kg in 4 months with their personalized program. The nutrition coaching made all the difference. Highly recommend to anyone serious about results.', ar: 'فقدت 15 كجم في 4 أشهر مع برنامجهم المخصص. التدريب الغذائي أحدث فرقاً كبيراً. أنصح به بشدة لكل من يريد نتائج حقيقية.' },
+  { img: member3, nameEn: 'David Chen', nameAr: 'ديفيد تشين', rating: 5, en: 'Premium experience from start to finish. The elite membership is worth every dirham. The coaches truly care about your progress.', ar: 'تجربة فاخرة من البداية للنهاية. عضوية إليت تستحق كل درهم. المدربون يهتمون حقاً بتقدمك.' },
 ];
 
 const Testimonials = () => {
