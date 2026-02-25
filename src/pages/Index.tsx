@@ -16,12 +16,14 @@ const Index = () => {
       <Navbar />
       <main>
         <HeroSection />
-        <WhyChooseUs />
-        <Programs />
-        <Trainers />
-        <Pricing />
-        <Testimonials />
-        <CTASection />
+        <div className="light-section">
+          <WhyChooseUs />
+          <Programs />
+          <Trainers />
+          <Pricing />
+          <Testimonials />
+          <CTASection />
+        </div>
       </main>
       <Footer />
       <WhatsAppButton />
