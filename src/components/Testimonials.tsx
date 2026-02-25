@@ -1,12 +1,15 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import trainer1 from '@/assets/trainer1.jpg';
+import trainer2 from '@/assets/trainer2.jpg';
+import trainer3 from '@/assets/trainer3.jpg';
 
 const testimonials = [
-  { nameEn: 'Ahmed Al Maktoum', nameAr: 'أحمد المكتوم', rating: 5, en: 'APEX FITNESS transformed my lifestyle. The trainers are world-class and the facility is unmatched in Dubai.', ar: 'غيّر APEX FITNESS نمط حياتي. المدربون على مستوى عالمي والمرافق لا مثيل لها في دبي.' },
-  { nameEn: 'Sarah Mitchell', nameAr: 'سارة ميتشل', rating: 5, en: 'Lost 15kg in 4 months with their personalized program. The nutrition coaching made all the difference.', ar: 'فقدت 15 كجم في 4 أشهر مع برنامجهم المخصص. التدريب الغذائي أحدث فرقاً كبيراً.' },
-  { nameEn: 'Rashid Al Noor', nameAr: 'راشد النور', rating: 5, en: 'Premium experience from start to finish. The elite membership is worth every dirham.', ar: 'تجربة فاخرة من البداية للنهاية. عضوية إليت تستحق كل درهم.' },
+  { img: trainer1, nameEn: 'Ahmed Al Maktoum', nameAr: 'أحمد المكتوم', rating: 5, en: 'APEX FITNESS transformed my lifestyle. The trainers are world-class and the facility is unmatched in Dubai. I\'ve never felt more motivated and supported in my fitness journey.', ar: 'غيّر APEX FITNESS نمط حياتي. المدربون على مستوى عالمي والمرافق لا مثيل لها في دبي. لم أشعر أبداً بمزيد من التحفيز والدعم في رحلة لياقتي.' },
+  { img: trainer2, nameEn: 'Sarah Mitchell', nameAr: 'سارة ميتشل', rating: 5, en: 'Lost 15kg in 4 months with their personalized program. The nutrition coaching made all the difference. Highly recommend to anyone serious about results.', ar: 'فقدت 15 كجم في 4 أشهر مع برنامجهم المخصص. التدريب الغذائي أحدث فرقاً كبيراً. أنصح به بشدة لكل من يريد نتائج حقيقية.' },
+  { img: trainer3, nameEn: 'Rashid Al Noor', nameAr: 'راشد النور', rating: 5, en: 'Premium experience from start to finish. The elite membership is worth every dirham. The coaches truly care about your progress.', ar: 'تجربة فاخرة من البداية للنهاية. عضوية إليت تستحق كل درهم. المدربون يهتمون حقاً بتقدمك.' },
 ];
 
 const Testimonials = () => {
@@ -14,6 +17,14 @@ const Testimonials = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [current, setCurrent] = useState(0);
+
+  // Auto-rotate every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
   const prev = () => setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
@@ -25,13 +36,13 @@ const Testimonials = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-12"
         >
           <p className="text-primary text-sm font-semibold tracking-widest uppercase mb-3">
-            {t('Testimonials', 'آراء العملاء')}
+            {t('Reviews', 'آراء العملاء')}
           </p>
           <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl tracking-wide">
-            {t('What Members ', 'ماذا يقول ')}<span className="gradient-text">{t('Say', 'أعضاؤنا')}</span>
+            {t('YOUR ', 'آراء ')}<span className="gradient-text">{t('OPINIONS', 'أعضائنا')}</span>
           </h2>
         </motion.div>
 
@@ -39,38 +50,77 @@ const Testimonials = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.3 }}
-          className="max-w-2xl mx-auto text-center"
+          className="grid md:grid-cols-[auto_1fr] gap-10 items-center"
         >
-          <div className="glass-card p-8 sm:p-12">
-            <div className="flex justify-center gap-1 mb-6">
-              {Array.from({ length: testimonials[current].rating }).map((_, i) => (
-                <Star key={i} className="w-5 h-5 fill-primary text-primary" />
-              ))}
-            </div>
-            <p className="text-lg sm:text-xl leading-relaxed mb-6 text-muted-foreground italic">
-              "{t(testimonials[current].en, testimonials[current].ar)}"
-            </p>
-            <p className="font-semibold text-foreground">
-              {t(testimonials[current].nameEn, testimonials[current].nameAr)}
-            </p>
-          </div>
-
-          <div className="flex justify-center gap-4 mt-6">
-            <button onClick={prev} className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors">
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <div className="flex items-center gap-2">
-              {testimonials.map((_, i) => (
+          {/* Avatar cluster */}
+          <div className="relative w-64 h-64 mx-auto md:mx-0 shrink-0">
+            {testimonials.map((item, i) => {
+              const positions = [
+                { top: '0%', left: '25%' },
+                { top: '40%', left: '0%' },
+                { top: '40%', left: '55%' },
+              ];
+              const pos = positions[i];
+              return (
                 <button
                   key={i}
                   onClick={() => setCurrent(i)}
-                  className={`w-2 h-2 rounded-full transition-all ${i === current ? 'bg-primary w-6' : 'bg-muted-foreground/30'}`}
-                />
-              ))}
+                  className={`absolute w-24 h-24 rounded-full overflow-hidden border-4 transition-all duration-300 ${
+                    i === current
+                      ? 'border-primary scale-110 ring-4 ring-primary/20 z-10'
+                      : 'border-border hover:border-primary/40 z-0'
+                  }`}
+                  style={{ top: pos.top, left: pos.left }}
+                >
+                  <img
+                    src={item.img}
+                    alt={t(item.nameEn, item.nameAr)}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Testimonial content */}
+          <div className="min-h-[200px] flex flex-col justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+              >
+                <h3 className="font-semibold text-xl mb-1">
+                  {t(testimonials[current].nameEn, testimonials[current].nameAr)}
+                </h3>
+                <div className="flex gap-0.5 mb-4">
+                  {Array.from({ length: testimonials[current].rating }).map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                  ))}
+                </div>
+                <p className="text-muted-foreground leading-relaxed max-w-lg">
+                  "{t(testimonials[current].en, testimonials[current].ar)}"
+                </p>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Navigation */}
+            <div className="flex gap-3 mt-8">
+              <button
+                onClick={prev}
+                className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={next}
+                className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
             </div>
-            <button onClick={next} className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors">
-              <ChevronRight className="w-5 h-5" />
-            </button>
           </div>
         </motion.div>
       </div>
