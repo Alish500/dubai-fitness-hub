@@ -49,7 +49,7 @@ const Trainers = () => {
                   className="w-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <span className="text-primary text-xs font-semibold tracking-widest uppercase">
                     {t(tr.roleEn, tr.roleAr)}
